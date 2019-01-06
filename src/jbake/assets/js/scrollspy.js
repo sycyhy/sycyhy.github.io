@@ -22,7 +22,7 @@
 		top : 0,
 		right : 0,
 		bottom : 0,
-		left : 0,
+		left : 0
 	}
 
 	/**
@@ -217,10 +217,10 @@
 			visible = $.grep(visible, function(value) {
 	      return value.height() != 0;
 	    });
-			console.log('[enter] start')
+			
 			var $this = $(this);
 			if (visible[0]) {
-				console.log('[enter] - the value vas present - remove the active tag' + visible[0].attr('id'))
+				
 				$('a[href=#' + visible[0].attr('id') + ']').removeClass('active');
 				if ($this.data('scrollSpy:id') < visible[0].data('scrollSpy:id')) {
 					visible.unshift($(this));
@@ -234,7 +234,7 @@
 				if($this) {
 					if($this.attr('id')) {
 						
-				console.log('[enter]Nothing present before - adding to visible ' + $this.attr('id'))
+				
 				visible.push($(this));	
 					}
 				}
@@ -250,14 +250,14 @@
 	    });
 
 			if (visible[0]) {
-				console.log("exiting the last part - so removing")
+				
 				$('a[href=#' + visible[0].attr('id') + ']').removeClass('active');
 				var $this = $(this);
 				visible = $.grep(visible, function(value) {
 	        return value.attr('id') != $this.attr('id');
 	      });
 	      if (visible[0]) { // Check if empty
-	      			console.log("exiting the last part - so removing")
+	      			
 					$('a[href=#' + visible[0].attr('id') + ']').addClass('active');
 	      }
 			}

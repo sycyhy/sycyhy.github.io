@@ -14,8 +14,6 @@
         <link href="<%=content.rootpath ?: ''%>css/style.css" media="screen,projection" rel="stylesheet" type="text/css"/>
         <link href="<%=content.rootpath ?: ''%>css/prettify.css" rel="stylesheet" type="text/css"/>
         <link href="<%=content.rootpath ?: ''%>css/asciidoctor.css" media="screen,projection" rel="stylesheet" type="text/css"/>
-                    <!-- Material Icons -->
-        <link href="./icons/icons.css?family=Material+Icons" rel="stylesheet">
         <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js">
         </script>
 

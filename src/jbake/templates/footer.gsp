@@ -20,12 +20,7 @@
 <!--  Scripts-->
 
 <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-<script src="<%=content.rootpath ?: ''%>js/materialize.js"></script>
-<script src="<%=content.rootpath ?: ''%>js/init.js"></script>
-<script src="<%=content.rootpath ?: ''%>js/pushpin.js"></script>
-<script src="<%=content.rootpath ?: ''%>js/scrollspy.js"></script>
-<script src="<%=content.rootpath ?: ''%>js/dropdown.js"></script>
-<script src="<%=content.rootpath ?: ''%>js/prettify.js"></script>
+<script src="<%=content.rootpath ?: ''%>js/all-min.js"></script>
 
 </body>
 </html>
