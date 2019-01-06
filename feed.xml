@@ -1,0 +1,190 @@
+<?xml version="1.0"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Lukasz Warzecha/sycyhy blog</title>
+    <link>https://sycyhy.github.io</link>
+    <atom:link href="https://sycyhy.github.io/feed.xml" rel="self" type="application/rss+xml" />
+    <description>Hopefully a bit of Spring/JVM/Groovy/Reactive </description>
+    <language>en-gb</language>
+    <pubDate>Sun, 6 Jan 2019 13:31:18 +0000</pubDate>
+    <lastBuildDate>Sun, 6 Jan 2019 13:31:18 +0000</lastBuildDate>
+
+    
+    <item>
+      <title>The first post on the blog .. and how it&#8217;s done using JBake</title>
+      <link>https://sycyhy.github.io/blog/2018/08/1/first-post-jbake.html</link>
+      <pubDate>Sun, 6 Jan 2019 00:00:00 +0000</pubDate>
+      <guid isPermaLink="false">blog/2018/08/1/first-post-jbake.html</guid>
+      <description>
+      &lt;div id=&quot;preamble&quot;&gt; 
+ &lt;div class=&quot;sectionbody&quot;&gt; 
+  &lt;div class=&quot;paragraph&quot;&gt; 
+   &lt;p&gt;I don’t know about you, but I’m impressed with number of tools that can help with creating a blog. Yes I know I know, as a developers we tend to be lazy as it saves us from doing the work that might have not been even required in the first place. In my case, I might have picked some free (or paid) blog serving service, do it in 5 minutes and be done with it …​ but where is really fun in it? Instead, I decided to use bunch of OSS tools and glue it together myself. If you ask anybody that knows me more than 5 minutes .. they will probably tell that I’m not a big fan of Javascript so it was a bit of journey with a lot of swearing in between :). Well but let’s get back to the topic at hand - so how it’s done? If you don’t care about the details you can go straight for the source code at &lt;a href=&quot;https://github.com/sycyhy/sycyhy.github.io&quot; target=&quot;_blank&quot;&gt;GitHub&lt;/a&gt;.&lt;/p&gt; 
+  &lt;/div&gt; 
+ &lt;/div&gt; 
+&lt;/div&gt; 
+&lt;div class=&quot;sect1&quot;&gt; 
+ &lt;h2 id=&quot;_let_bake_us_some_blog&quot;&gt;Let bake us some blog&lt;/h2&gt; 
+ &lt;div class=&quot;sectionbody&quot;&gt; 
+  &lt;div class=&quot;paragraph&quot;&gt; 
+   &lt;p&gt;I wanted something fast and simple, simple and fast (yeah baby), something that separates how you write your content (preferably some markup language) with how your website looks so I would not need to worry about it anymore. A bit of googling around and ta-dah, this is how I found out &lt;a href=&quot;https://jbake.org/&quot; target=&quot;_blank&quot;&gt;JBake&lt;/a&gt; - open source project written in Java (yeah baby #2).&lt;/p&gt; 
+  &lt;/div&gt; 
+  &lt;div class=&quot;paragraph&quot;&gt; 
+   &lt;p&gt;Now now, how do you manage/generate projects in Java? Either you do it manually (nope), or you use some build tool like Maven (smaller nope but still nope) or Gradle (yeah baby #3). Personally I went with &lt;a href=&quot;https://github.com/jbake-org/jbake-gradle-plugin/&quot; target=&quot;_blank&quot;&gt;Gradle&lt;/a&gt; because in the future I would like to have a bit more advanced release process where it would also generate tweets/posts on Twitter/Linkedin. If you would want to do it without any build tool, you can install JBake locally via &lt;a href=&quot;https://sdkman.io/&quot; target=&quot;_blank&quot;&gt;SDKMAN&lt;/a&gt;. The rest of the post assumes usage of Gradle, but most of the mentioned things should be fairly build-tool agnostic.&lt;/p&gt; 
+  &lt;/div&gt; 
+  &lt;div class=&quot;paragraph&quot;&gt; 
+   &lt;p&gt;In order to generate the initial project structure we type &lt;code&gt;gradle bakeInit&lt;/code&gt;, and typically the structure should look more or less like this:&lt;/p&gt; 
+  &lt;/div&gt; 
+  &lt;div class=&quot;listingblock&quot;&gt; 
+   &lt;div class=&quot;content&quot;&gt; 
+    &lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code&gt;├── assets
+│   ├── css
+│   ├── fonts
+│   └── js
+├── content
+│   ├── about.html
+│   └── blog
+│       └── 2018
+│           ├── first-post.adoc
+│           ├── second-post.md
+├── jbake.properties
+└── templates
+    ├── archive.gsp
+    ├── feed.gsp
+    ├── footer.gsp
+    ├── header.gsp
+    ├── index.gsp
+    ├── menu.gsp
+    ├── page.gsp
+    ├── post.gsp
+    ├── sitemap.gsp
+    └── tags.gsp&lt;/code&gt;&lt;/pre&gt; 
+   &lt;/div&gt; 
+  &lt;/div&gt; 
+  &lt;div class=&quot;paragraph&quot;&gt; 
+   &lt;p&gt;There are 3 directories and &lt;code&gt;jbake.properties&lt;/code&gt; file:&lt;/p&gt; 
+  &lt;/div&gt; 
+  &lt;div class=&quot;ulist&quot;&gt; 
+   &lt;ul&gt; 
+    &lt;li&gt; &lt;p&gt;&lt;code&gt;assets&lt;/code&gt; - self explanatory&lt;/p&gt; &lt;/li&gt; 
+    &lt;li&gt; &lt;p&gt;&lt;code&gt;content&lt;/code&gt; - slightly self-explanatory too, but the nice thing to notice is the format - it’s &lt;code&gt;adoc&lt;/code&gt; and &lt;code&gt;md&lt;/code&gt;, it could have been also &lt;code&gt;html&lt;/code&gt;. The files in there require author to put some metadata at the top of the file which will be used during &apos;baking&apos;. For this post it could have been:&lt;/p&gt; &lt;/li&gt; 
+   &lt;/ul&gt; 
+  &lt;/div&gt; 
+  &lt;div class=&quot;listingblock&quot;&gt; 
+   &lt;div class=&quot;content&quot;&gt; 
+    &lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code class=&quot;language-adoc&quot; data-lang=&quot;adoc&quot;&gt;= The first post on the blog .. and how it&apos;s done using JBake
+Lukasz Warzecha
+2018-08-01
+:jbake-type: post
+:jbake-status: published
+:jbake-tags: jbake, blog&lt;/code&gt;&lt;/pre&gt; 
+   &lt;/div&gt; 
+  &lt;/div&gt; 
+  &lt;div class=&quot;ulist&quot;&gt; 
+   &lt;ul&gt; 
+    &lt;li&gt; &lt;p&gt;&lt;code&gt;templates&lt;/code&gt; - probably the most important part, where you define &apos;recipes&apos; - aka how everything looks and how it will be glued together using one of supported templating engine. The library supports few of them e.g. thymeleaf and freemarker which are well known in Java community. I personally went with GSP (Groovy Server Pages) which is used in Grails among others. Typical template file looks like this:&lt;/p&gt; &lt;/li&gt; 
+   &lt;/ul&gt; 
+  &lt;/div&gt; 
+  &lt;div class=&quot;listingblock&quot;&gt; 
+   &lt;div class=&quot;content&quot;&gt; 
+    &lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code class=&quot;language-groovy&quot; data-lang=&quot;groovy&quot;&gt;&amp;lt;% include &quot;header.gsp&quot; %&amp;gt;  // imports header.gsp file
+&amp;lt;main&amp;gt;
+  &amp;lt;div class=&quot;container&quot;&amp;gt;
+    &amp;lt;div class=&quot;row&quot;&amp;gt;
+      &amp;lt;% published_posts.each { post -&amp;gt; %&amp;gt; &lt;b class=&quot;conum&quot;&gt;(1)&lt;/b&gt;
+      &amp;lt;article&amp;gt;
+        &amp;lt;div&amp;gt;
+          &amp;lt;a href=&quot;${post.uri}&quot; class=&quot;black-text&quot;&amp;gt;&amp;lt;h1 class=&quot;content-title&quot;&amp;gt;${post.title}&amp;lt;/h1&amp;gt;&amp;lt;/a&amp;gt;
+          &amp;lt;i&amp;gt;${post.date.format(&quot;dd MMMM, yyyy&quot;)}&amp;lt;/i&amp;gt;
+
+          &amp;lt;article-body&amp;gt;
+            &amp;lt;div class=&quot;post-preview&quot;&amp;gt;
+              &amp;lt;% def words = post.body.split(&apos; &apos;) %&amp;gt;
+              &amp;lt;% def body = word?) : words %&amp;gt; &lt;b class=&quot;conum&quot;&gt;(2)&lt;/b&gt;
+              &amp;lt;p&amp;gt;${body.join(&apos; &apos;)}&amp;lt;/p&amp;gt;
+              &amp;lt;a href=&quot;${post.uri}&quot;&amp;gt;&amp;lt;span class=&quot;red-text lighten-2&quot;&amp;gt;Read more ..&amp;lt;/span&amp;gt;&amp;lt;/a&amp;gt;
+            &amp;lt;/div&amp;gt;
+          &amp;lt;/article-body&amp;gt;
+        &amp;lt;/div&amp;gt;
+      &amp;lt;/article&amp;gt;
+
+      &amp;lt;div class=&quot;divider&quot;&amp;gt;&amp;lt;/div&amp;gt;
+      &amp;lt;% } %&amp;gt;
+    &amp;lt;/div&amp;gt;
+  &amp;lt;/div&amp;gt;
+&amp;lt;/main&amp;gt;
+&amp;lt;% include &quot;footer.gsp&quot; %&amp;gt;&lt;/code&gt;&lt;/pre&gt; 
+   &lt;/div&gt; 
+  &lt;/div&gt; 
+  &lt;div class=&quot;paragraph&quot;&gt; 
+   &lt;p&gt;If you ever used Grails or even JSP it will definitely look familiar to you, if not the &lt;code&gt;&amp;lt;% …​ %&amp;gt;&lt;/code&gt; syntax allows you to define so-called scriptlets which are used to embed Groovy code. If you are interested in more I advise you to have a look &lt;a href=&quot;https://gsp.grails.org/latest/guide/index.html&quot; target=&quot;_blank&quot;&gt;here&lt;/a&gt;.&lt;/p&gt; 
+  &lt;/div&gt; 
+  &lt;div class=&quot;paragraph&quot;&gt; 
+   &lt;p&gt;The JBake library provides number of predefined variables that you can use in your scriplets, they vary between the pages. As an example, have a look at &lt;strong&gt;(1)&lt;/strong&gt; and variable &lt;code&gt;published_posts&lt;/code&gt; which in reality is a list of all the posts. By iterating over it we can generate required html in required format, or implement custom logic e.g. limiting number of printed words like shown in &lt;strong&gt;(2)&lt;/strong&gt;. This hopefully gives you a overall image how this works. I feel it’s also nice to mention that you can define your own variables if there is a use-case for it.&lt;/p&gt; 
+  &lt;/div&gt; 
+  &lt;div class=&quot;paragraph&quot;&gt; 
+   &lt;p&gt;The rest of the pages is defined more or less in exactly the same way.&lt;/p&gt; 
+  &lt;/div&gt; 
+ &lt;/div&gt; 
+&lt;/div&gt; 
+&lt;div class=&quot;sect1&quot;&gt; 
+ &lt;h2 id=&quot;_hosting_and_releasing_on_github_pages&quot;&gt;Hosting and releasing on Github Pages&lt;/h2&gt; 
+ &lt;div class=&quot;sectionbody&quot;&gt; 
+  &lt;div class=&quot;paragraph&quot;&gt; 
+   &lt;p&gt;You can build your project by running the &lt;code&gt;gradle bake&lt;/code&gt; and as result you will have a number of static html files that you can upload wherever you want. In my case the build command results in:&lt;/p&gt; 
+  &lt;/div&gt; 
+  &lt;div class=&quot;listingblock&quot;&gt; 
+   &lt;div class=&quot;content&quot;&gt; 
+    &lt;pre class=&quot;prettyprint highlight&quot;&gt;&lt;code&gt;build
+└──   jbake
+    ├──   about.html
+    ├──   archive.html
+    ├──   css
+    │   ├──  asciidoctor.css
+    │   ├──  materialize.css
+    │   ├──  prettify.css
+    │   └──  style.css
+    ├──   feed.xml
+    ├──   fonts
+    │   └── fonts.css
+    ├──   icons
+    │   └──  icons.css
+    ├──   index.html
+    ├──   js
+    │   ├──  init.js
+    │   ├──  materialize.min.js
+    │   ├──  prettify.js
+    │   └──  scrollspy.js
+    └──   blog
+        └──  2018
+            └──  08
+                └──  1
+                    └──  first-post-jbake.html&lt;/code&gt;&lt;/pre&gt; 
+   &lt;/div&gt; 
+  &lt;/div&gt; 
+  &lt;div class=&quot;paragraph&quot;&gt; 
+   &lt;p&gt;One of the advantages of having a static website is testability. The files are &apos;fixed&apos; they won’t change, so it’s super easy to write tests or host them. I decided to host everything on Github Pages. It’s usually used for hosting documentation but I don’t see a reason why not use it for a blog. In reality it just a standard git repository - you commit the content and Github takes care of serving it for you. The fact that is also completely free definitely helps :)&lt;/p&gt; 
+  &lt;/div&gt; 
+  &lt;div class=&quot;paragraph&quot;&gt; 
+   &lt;p&gt;There is one small issue though, as mentioned before, my static files are in &lt;code&gt;build/jbake&lt;/code&gt; directory, but the &lt;code&gt;index.html&lt;/code&gt; definitely needs to be in the root of the repository. There are few ways around it, some of them uglier than the rest (like copying bunch of files to the root of dir and hacking away with gitignore - nope). The best way forward would be to separate the source code (because it is exactly that) from the build result, artifact or however you want to call it (aka my static files). This is how we get to the solution, which results in having 2 completely separate branches on the same repository:&lt;/p&gt; 
+  &lt;/div&gt; 
+  &lt;div class=&quot;ulist&quot;&gt; 
+   &lt;ul&gt; 
+    &lt;li&gt; &lt;p&gt;&lt;code&gt;source&lt;/code&gt; - source code&lt;/p&gt; &lt;/li&gt; 
+    &lt;li&gt; &lt;p&gt;&lt;code&gt;master&lt;/code&gt; - generated/baked static files served by GitHub&lt;/p&gt; &lt;/li&gt; 
+   &lt;/ul&gt; 
+  &lt;/div&gt; 
+  &lt;div class=&quot;paragraph&quot;&gt; 
+   &lt;p&gt;This simplifies my release/deployment process to:&lt;/p&gt; 
+  &lt;/div&gt; 
+  &lt;div class=&quot;paragraph&quot;&gt; 
+   &lt;p&gt;bake blog → run tests → push everything from &lt;code&gt;./build/jbake&lt;/code&gt; directory to master branch.&lt;/p&gt; 
+  &lt;/div&gt; 
+ &lt;/div&gt; 
+&lt;/div&gt;
+	  </description>
+    </item>
+    
+
+  </channel> 
+</rss>
