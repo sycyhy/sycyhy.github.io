@@ -49,19 +49,16 @@ makeActive = function () {
         : 0;
       var bottomOffset = footerOffset - socialHeight - tocHeight - tocWrapperHeight;
       if ($('nav').length) {
-        console.log('Nav pushpin', $('nav').height());
         $('.toc-wrapper').pushpin({
           top: 232,
           bottom: bottomOffset
         });
       } else if ($('#index-banner').length) {
-      	console.log('Index banner', $('nav').height());
         $('.toc-wrapper').pushpin({
           top: $('#index-banner').height(),
           bottom: bottomOffset
         });
       } else {
-      	console.log('Nav pushpin', $('nav').height());
         $('.toc-wrapper').pushpin({
           top: 0,
           bottom: bottomOffset
