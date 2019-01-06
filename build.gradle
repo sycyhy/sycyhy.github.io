@@ -1,0 +1,39 @@
+buildscript {
+  repositories {
+    maven { url "http://oss.jfrog.org/artifactory/repo" }
+    mavenCentral()
+    jcenter()
+  }
+
+  dependencies {
+    classpath 'org.jbake:jbake-core:2.6.1'
+    classpath 'org.asciidoctor:asciidoctorj:1.5.5'
+  }
+}
+
+plugins {
+  id 'org.jbake.site' version '1.4.0'
+  id "org.ajoberstar.git-publish" version "1.0.1"
+}
+
+apply plugin: 'idea'
+apply plugin: 'groovy'
+
+jbake {
+  clearCache = true
+  groovyTemplatesVersion = '2.4.15'
+  asciidoctorJavaIntegrationVersion = '0.1.4'
+  asciidoctorjVersion = '1.5.5'
+}
+
+gitPublish {
+  repoUri = "git@github.com:sycyhy/sycyhy.github.io.git"
+  branch = "master"
+  contents {
+    from "$projectDir/build/jbake"
+    into "."
+  }
+  commitMessage = 'Publishing a new blog/blog changes via git-publish plugin'
+}
+
+gitPublishCopy.dependsOn(bake)

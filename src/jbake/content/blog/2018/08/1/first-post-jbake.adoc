@@ -1,0 +1,146 @@
+// title
+= The first post on the blog .. and how it's done using JBake
+// author
+Lukasz Warzecha
+// date
+2019-01-06
+:jbake-type: post
+:jbake-status: published
+:jbake-tags: jbake, blog
+
+
+I don't know about you, but I'm impressed with number of tools that can help with creating a blog. Yes I know I know, as a developers we tend to be lazy as it saves us from doing the work that might have not been even required in the first place. In my case, I might have picked some free (or paid) blog serving service, do it in 5 minutes and be done with it ... but where is really fun in it? Instead, I decided to use bunch of OSS tools and glue it together myself. If you ask anybody that knows me more than 5 minutes .. they will probably tell that I'm not a big fan of Javascript so it was a bit of journey with a lot of swearing in between :). Well but let's get back to the topic at hand - so how it's done? If you don't care about the details you can go straight for the source code at https://github.com/sycyhy/sycyhy.github.io[GitHub^].
+
+== Let bake us some blog  
+
+I wanted something fast and simple, simple and fast (yeah baby), something that separates how you write your content (preferably some markup language) with how your website looks so I would not need to worry about it anymore. A bit of googling around and ta-dah, this is how I found out https://jbake.org/[JBake^] - open source project written in Java (yeah baby #2). 
+
+Now now, how do you manage/generate projects in Java? Either you do it manually (nope), or you use some build tool like Maven (smaller nope but still nope) or Gradle (yeah baby #3). Personally I went with https://github.com/jbake-org/jbake-gradle-plugin/[Gradle^] because in the future I would like to have a bit more advanced release process where it would also generate tweets/posts on Twitter/Linkedin. If you would want to do it without any build tool, you can install JBake locally via https://sdkman.io/[SDKMAN^]. The rest of the post assumes usage of Gradle, but most of the mentioned things should be fairly build-tool agnostic.
+
+In order to generate the initial project structure we type `gradle bakeInit`, and typically the structure should look more or less like this:
+
+
+```
+├── assets
+│   ├── css
+│   ├── fonts
+│   └── js
+├── content
+│   ├── about.html
+│   └── blog
+│       └── 2018
+│           ├── first-post.adoc
+│           ├── second-post.md
+├── jbake.properties
+└── templates
+    ├── archive.gsp
+    ├── feed.gsp
+    ├── footer.gsp
+    ├── header.gsp
+    ├── index.gsp
+    ├── menu.gsp
+    ├── page.gsp
+    ├── post.gsp
+    ├── sitemap.gsp
+    └── tags.gsp
+```
+
+There are 3 directories and `jbake.properties` file:
+
+* `assets` - self explanatory
+* `content` - slightly self-explanatory too, but the nice thing to notice is the format - it's `adoc` and `md`, it could have been also `html`. The files in there require author to put some metadata at the top of the file which will be used during 'baking'. For this post it could have been:
+
+
+[source,adoc]
+----
+= The first post on the blog .. and how it's done using JBake 
+Lukasz Warzecha 
+2018-08-01 
+:jbake-type: post 
+:jbake-status: published 
+:jbake-tags: jbake, blog
+----
+
+* `templates` - probably the most important part, where you define 'recipes' - aka how everything looks and how it will be glued together using one of supported templating engine. The library supports few of them e.g. thymeleaf and freemarker which are well known in Java community. I personally went with GSP (Groovy Server Pages) which is used in Grails among others. Typical template file looks like this:
+
+[source,groovy]
+----
+<% include "header.gsp" %>  // imports header.gsp file 
+<main>
+  <div class="container">
+    <div class="row">
+      <% published_posts.each { post -> %> // <1>
+      <article>
+        <div>
+          <a href="${post.uri}" class="black-text"><h1 class="content-title">${post.title}</h1></a> 
+          <i>${post.date.format("dd MMMM, yyyy")}</i>
+
+          <article-body>
+            <div class="post-preview">
+              <% def words = post.body.split(' ') %> 
+              <% def body = word?) : words %> // <2>
+              <p>${body.join(' ')}</p>
+              <a href="${post.uri}"><span class="red-text lighten-2">Read more ..</span></a>
+            </div>
+          </article-body>
+        </div>
+      </article>
+
+      <div class="divider"></div>
+      <% } %>
+    </div>
+  </div>
+</main>
+<% include "footer.gsp" %>
+----
+
+If you ever used Grails or even JSP it will definitely look familiar to you, if not the `<% ... %>` syntax allows you to define so-called scriptlets which are used to embed Groovy code. If you are interested in more I advise you to have a look https://gsp.grails.org/latest/guide/index.html[here^]. 
+
+The JBake library provides number of predefined variables that you can use in your scriplets, they vary between the pages. As an example, have a look at *(1)* and variable `published_posts` which in reality is a list of all the posts. By iterating over it we can generate required html in required format, or implement custom logic e.g. limiting number of printed words like shown in *(2)*. This hopefully gives you a overall image how this works. I feel it's also nice to mention that you can define your own variables if there is a use-case for it. 
+
+The rest of the pages is defined more or less in exactly the same way.
+
+== Hosting and releasing on Github Pages
+
+You can build your project by running the `gradle bake` and as result you will have a number of static html files that you can upload wherever you want. In my case the build command results in:
+
+
+```
+build
+└──   jbake
+    ├──   about.html
+    ├──   archive.html
+    ├──   css
+    │   ├──  asciidoctor.css
+    │   ├──  materialize.css
+    │   ├──  prettify.css
+    │   └──  style.css
+    ├──   feed.xml
+    ├──   fonts
+    │   └── fonts.css
+    ├──   icons
+    │   └──  icons.css
+    ├──   index.html
+    ├──   js
+    │   ├──  init.js
+    │   ├──  materialize.min.js
+    │   ├──  prettify.js
+    │   └──  scrollspy.js
+    └──   blog
+        └──  2018
+            └──  08
+                └──  1
+                    └──  first-post-jbake.html
+
+```
+
+One of the advantages of having a static website is testability. The files are 'fixed' they won't change, so it's super easy to write tests or host them. I decided to host everything on Github Pages. It's usually used for hosting documentation but I don't see a reason why not use it for a blog. In reality it just a standard git repository - you commit the content and Github takes care of serving it for you. The fact that is also completely free definitely helps :)
+
+There is one small issue though, as mentioned before, my static files are in `build/jbake` directory, but the `index.html` definitely needs to be in the root of the repository. There are few ways around it, some of them uglier than the rest (like copying bunch of files to the root of dir and hacking away with gitignore - nope). The best way forward would be to separate the source code (because it is exactly that) from the build result, artifact or however you want to call it (aka my static files). This is how we get to the solution, which results in having 2 completely separate branches on the same repository:
+
+* `source` - source code
+* `master` - generated/baked static files served by GitHub
+
+This simplifies my release/deployment process to:
+
+bake blog -> run tests -> push everything from `./build/jbake` directory to master branch.

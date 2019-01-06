@@ -1,0 +1,95 @@
+
+.social-media-menu {
+  padding: 0 72px;
+}
+
+.social-media-menu i.fa {
+  color: rgba(0, 0, 0, 0.55);
+}
+
+.icon-block {
+  padding: 0 15px;
+}
+
+.icon-block .material-icons {
+  font-size: inherit;
+}
+
+.footer-icons {
+  color: #FFFFFF;
+  margin-left: 10px;
+}
+
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+li.L0, li.L1, li.L2, li.L3,
+li.L5, li.L6, li.L7, li.L8 {
+  list-style-type: decimal !important;
+}
+
+.page-footer .footer-copyright {
+  background-color: rgba(0, 0, 0, 0) !important;
+}
+
+.page-footer {
+  padding-top: 5px;
+  flex-shrink: 0;
+}
+
+/*logo things*/
+
+#index-logo {
+  min-height: 232px;
+  max-height: 864px;
+  position: relative;
+  background-color: #ee6e73;
+}
+
+#nav_f {
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+}
+
+ul.right.hide-on-med-and-down {
+  line-height: 4.25;
+}
+
+.text_h {
+  color: white;
+}
+
+.header {
+  margin-bottom: 12 px1;
+}
+
+row.moved {
+  margin-left: 50px;
+}
+
+.pin-top {
+  position: relative;
+}
+
+
+pre {
+  overflow-y: hidden;
+  overflow-x: auto; 
+  font-size:13px !important;
+  padding: 9.5px !important;
+  word-wrap: break-word !important;
+  background-color: #f5f5f5;
+}
+
+
+.ulist > ul > li {
+  list-style: initial;
+  line-height: 1em;
+}

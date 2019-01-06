@@ -1,0 +1,39 @@
+= About me
+Lukasz Warzecha
+:jbake-type: page
+:jbake-status: published
+2019-01-06
+
+=== Personal Statement
+
+My name is Lukasz Warzecha and I'm very ambitious, passionate and experienced backend software developer. I'm specialized in distributed, highly scalable, available and performant web-applications. Personally big fan of everything JVM related, Linux, functional and reactive programming. Loves clean, efficient and highly maintainable code, believes that code reviews and testing greatly improves quality of the software. Experienced with Agile Methodologies and XP programming. Loves criticism and treats it as opportunity to learn and develop further. In order to keep his knowledge up to date - regularly attending conferences and reading technical books. 
+
+=== Experience
+
+*Booking.com / BookingGo - Ground Transport division* +
+_March 2017 - Current, Manchester_ +
+Senior Software Engineer
+
+*VoicePIN.com* +
+_October 2015 - February 2017, Krakow_ +
+Software Engineer
+
+*Actislink* +
+_Feb 2014	- January 2016, Krakow_ +
+Software Engineer
+
+*Pirios S.A.* +
+_Feb 2013	- December 2013, Krakow_ +
+Service and implementantion engineer
+
+
+=== Conferences attented
+
+* June 2018	JManc
+* June 2018	Devoxx Krakow
+* May 2017	Geecon Krakow
+* Dec 2016	Code Europe
+* June 2016 Devoxx Poland
+* May 2015 	Geecon Krakow
+
+
