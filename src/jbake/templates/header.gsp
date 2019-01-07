@@ -7,6 +7,7 @@
         <title>
             <%=content.title ? content.title + ' - Lukasz Warzecha blog' : 'Lukasz Warzecha - All things software related'%>
         </title>
+        <link rel="icon" href="<%=content.rootpath ?: ''%>icons/favicon.ico">
         <!-- CSS  -->
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
